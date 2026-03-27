@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
-public class EmployeeRequest {
+public class EmployeeCreateRequest {
     @NotBlank(message = "fistName is required")
     @Size(max = 50)
     private String firstName;

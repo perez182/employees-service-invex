@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
-public class EmployeeUpdateRequeste {
+public class EmployeeUpdateRequest {
     @Size(max = 50)
     private String firstName;
 
