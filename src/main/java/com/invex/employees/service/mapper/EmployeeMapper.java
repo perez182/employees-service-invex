@@ -24,6 +24,9 @@ public class EmployeeMapper {
     }
 
     public EmployeeResponse toEmployeeResponse(Employee e){
+        if(e==null){
+            return null;            
+        }
         return EmployeeResponse.builder().
         Age(e.getAge())
         .firstName(e.getFirstName())
