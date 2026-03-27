@@ -36,7 +36,7 @@ public class EmployeeCreateRequest {
     @Pattern(regexp = "M|F", message = "Gender must be M or F")
     private String gender;
 
-    @NotNull(message = "birtDate is required")
+    @NotNull(message = "birthDate is required")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
 
