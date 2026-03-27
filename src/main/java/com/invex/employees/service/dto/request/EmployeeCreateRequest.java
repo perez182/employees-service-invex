@@ -31,7 +31,7 @@ public class EmployeeCreateRequest {
 
     @Min(value=18 , message="Age must be >= 18")
     @Max(value = 120, message= "Age must be <=120")
-    private Integer Age;
+    private Integer age;
 
     @Pattern(regexp = "M|F", message = "Gender must be M or F")
     private String gender;

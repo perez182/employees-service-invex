@@ -8,9 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
-@Valid
 public class EmployeeCreateBulkRequest {
     @NotEmpty
+    @Valid
     List<EmployeeCreateRequest> employees;
     
 }
