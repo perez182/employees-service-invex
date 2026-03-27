@@ -2,10 +2,13 @@ package com.invex.employees.service.mapper;
 
 
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 
 import com.invex.employees.service.domain.Employee;
 import com.invex.employees.service.dto.request.EmployeeCreateRequest;
+import com.invex.employees.service.dto.request.EmployeeUpdateRequest;
 import com.invex.employees.service.dto.response.EmployeeResponse;
 
 @Component
@@ -40,5 +43,17 @@ public class EmployeeMapper {
         .createdAt(e.getCreatedAt())
         .id(e.getId())
         .build();
+    }
+
+    public void update(EmployeeUpdateRequest req, Employee existing) {
+        Optional.ofNullable(req.getFirstName()).filter(s -> !s.isBlank()).ifPresent(existing::setFirstName);
+        Optional.ofNullable(req.getMiddleName()).ifPresent(existing::setMiddleName);
+        Optional.ofNullable(req.getLastName()).filter(s -> !s.isBlank()).ifPresent(existing::setLastName);
+        Optional.ofNullable(req.getSecondLastName()).ifPresent(existing::setSecondLastName);
+        Optional.ofNullable(req.getAge()).ifPresent(existing::setAge);
+        Optional.ofNullable(req.getGender()).filter(s -> !s.isBlank()).ifPresent(existing::setGender);
+        Optional.ofNullable(req.getBirthDate()).ifPresent(existing::setBirthDate);
+        Optional.ofNullable(req.getPosition()).filter(s -> !s.isBlank()).ifPresent(existing::setPosition);
+        Optional.ofNullable(req.getIsActive()).ifPresent(active -> existing.setIsActive(active ? 1 : 0));
     }
 }

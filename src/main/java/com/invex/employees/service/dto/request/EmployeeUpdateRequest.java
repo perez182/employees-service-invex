@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -13,6 +15,9 @@ import lombok.Data;
 
 @Data
 public class EmployeeUpdateRequest {
+    @NotNull
+    private Long id;
+
     @Size(max = 50)
     private String firstName;
 
@@ -28,7 +33,7 @@ public class EmployeeUpdateRequest {
 
     @Min(value=18 , message="Age must be >= 18")
     @Max(value = 120, message= "Age must be <=120")
-    private Integer Age;
+    private Integer age;
 
     @Pattern(regexp = "M|F", message = "Gender must be M or F")
     private String gender;

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.invex.employees.service.dto.request.EmployeeCreateBulkRequest;
 import com.invex.employees.service.dto.request.EmployeeCreateRequest;
+import com.invex.employees.service.dto.request.EmployeeUpdateRequest;
 import com.invex.employees.service.dto.response.EmployeeResponse;
 import com.invex.employees.service.service.EmployeeService;
 
@@ -22,6 +24,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -58,10 +61,25 @@ public class EmployeeController {
     }
     
     @PostMapping()
-    @Operation(summary = "create worker")
+    @Operation(summary = "create employee")
     public ResponseEntity<EmployeeResponse> create(@Valid @RequestBody EmployeeCreateRequest req){
        return new ResponseEntity<>(service.create(req),HttpStatus.CREATED);
     }
     
+
+    @PutMapping
+    @Operation(summary = "update employee")
+    public ResponseEntity<EmployeeResponse> update(@Valid @RequestBody EmployeeUpdateRequest req) {
+        log.info("Updating employee with ID: {}", req.getId());
+        return ResponseEntity.ok(service.update(req));
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "delete employee by id")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("Deleting employee with ID: {}", id);
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

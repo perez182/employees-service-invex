@@ -3,6 +3,7 @@ package com.invex.employees.service.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -38,8 +39,10 @@ public class EmployeeServiceImp implements EmployeeService{
 
     @Override
     public EmployeeResponse getEmployeeByID(Long id) {
-        Employee resp=repository.findById(id).orElse(null);
-        return mapper.toEmployeeResponse(resp);
+        return repository.findById(id)
+        .map(mapper::toEmployeeResponse)
+        .orElseThrow(() -> new EntityNotFoundException("Employee not found with ID: " + id));
+
     }
 
     @SuppressWarnings("unchecked")
@@ -65,14 +68,22 @@ public class EmployeeServiceImp implements EmployeeService{
 
     @Override
     public EmployeeResponse update(EmployeeUpdateRequest req) {
+        //Search Entity
+        Employee existing = repository.findById(req.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Update failed. Employee ID " + req.getId() + " not found."));
         
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        // Update fields from dto to entity
+        mapper.update(req, existing);
+        
+        return mapper.toEmployeeResponse(repository.save(existing));
     }
 
     @Override
     public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("Delete failed. Employee ID " + id + " not found.");
+        }
+        repository.deleteById(id);
     }
 
     @Override
